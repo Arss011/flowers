@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(45deg, #1a1f3d, #2a284f, #352f5e);
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .scene {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            transition: transform 1.5s ease-in-out;
+        }
+
+        .scene.next-page {
+            transform: translateX(-100%);
+        }
+
+        .first-page, .second-page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .second-page {
+            left: 100%;
+            background: linear-gradient(45deg, #202746, #2d3158, #373c6d);
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+        }
+
+        h1 {
+            color: #e2c4f9;
+            font-size: 3em;
+            text-shadow: 0 0 15px rgba(226, 196, 249, 0.5);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease;
+        }
+
+        .visible {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+
+        .gift-container {
+            position: relative;
+            margin-top: 30px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .gift-container:hover {
+            transform: scale(1.1);
+        }
+
+        .gift-box {
+            width: 100px;
+            height: 100px;
+            background: #c4a6e9;
+            position: relative;
+            margin: 0 auto;
+            border-radius: 5px;
+            box-shadow: 0 0 20px rgba(196, 166, 233, 0.3);
+        }
+
+        .gift-lid {
+            width: 120px;
+            height: 30px;
+            background: #b594e3;
+            position: absolute;
+            top: -15px;
+            left: -10px;
+            border-radius: 5px;
+        }
+
+        .gift-ribbon {
+            width: 20px;
+            height: 85px;
+            background: #b594e3;
+            position: absolute;
+            left: 40px;
+            bottom: 0;
+        }
+
+        .click-me {
+            position: absolute;
+            top: -30px;
+            right: -40px;
+            color: #fff;
+            font-size: 0.8em;
+            background: rgba(196, 166, 233, 0.6);
+            padding: 5px 10px;
+            border-radius: 15px;
+            animation: bounce 1s infinite;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(226, 196, 249, 0.3);
+            max-width: 400px;
+            margin: 0 20px;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 1s ease;
+        }
+
+        .flower {
+            position: absolute;
+            transform-origin: bottom center;
+            animation: grow 3s ease-out forwards;
+        }
+
+        .flower-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .stem {
+            width: 3px;
+            height: 0;
+            background: linear-gradient(to top, #4a9c5d, #3d8b50);
+            margin: 0 auto;
+            animation: stemGrow 3s ease-out forwards;
+        }
+
+        .bloom {
+            position: relative;
+            width: 40px;
+            height: 40px;
+        }
+
+        .petal {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(45deg, #e2c4f9, #d4b3f7);
+            border-radius: 50% 50% 0 50%;
+            transform-origin: bottom right;
+            animation: bloom 2s ease-out forwards;
+            box-shadow: 0 0 10px rgba(226, 196, 249, 0.3);
+        }
+
+        @keyframes grow {
+            0% { transform: scale(0); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes stemGrow {
+            0% { height: 0; }
+            100% { height: 100px; }
+        }
+
+        @keyframes bloom {
+            0% { transform: scale(0) rotate(0deg); }
+            50% { transform: scale(0.5) rotate(90deg); }
+            100% { transform: scale(1) rotate(180deg); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 1s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.2; }
+            100% { opacity: 1; }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="scene">
+        <div class="stars"></div>
+        <div class="first-page">
+            <div class="container">
+                <h1 id="birthdayText" class="visible">Happy Birthday! ✨</h1>
+                <div class="gift-container" onclick="showSecondPage()">
+                    <div class="gift-box">
+                        <div class="gift-lid"></div>
+                        <div class="gift-ribbon"></div>
+                    </div>
+                    <div class="click-me">Click me!</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="second-page">
+            <div class="flower-container"></div>
+            <div class="card">
+                <h2>✨ Selamat Ulang Tahun! ✨</h2>
+                <p style="margin: 20px 0;">
+                    Di malam yang penuh keajaiban ini,<br>
+                    Seperti bunga yang mekar dengan indahnya,<br>
+                    Semoga hidupmu selalu dipenuhi kebahagiaan<br>
+                    dan mimpi-mimpi yang menjadi kenyataan.
+                </p>
+                <p>
+                    Teruslah bersinar seperti bintang di langit,<br>
+                    Membawa cahaya untuk semua di sekitarmu. 🌟
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create stars
+        function createStars() {
+            const stars = document.querySelector('.stars');
+            for(let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.width = Math.random() * 3 + 'px';
+                star.style.height = star.style.width;
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 1 + 's';
+                stars.appendChild(star);
+            }
+        }
+
+        // Create magical flowers
+        function createFlower(x, y) {
+            const flower = document.createElement('div');
+            flower.className = 'flower';
+            flower.style.left = x + 'px';
+            flower.style.bottom = y + 'px';
+
+            const stem = document.createElement('div');
+            stem.className = 'stem';
+            flower.appendChild(stem);
+
+            const bloom = document.createElement('div');
+            bloom.className = 'bloom';
+            
+            for(let i = 0; i < 8; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                petal.style.transform = `rotate(${i * 45}deg)`;
+                bloom.appendChild(petal);
+            }
+
+            flower.appendChild(bloom);
+            return flower;
+        }
+
+        function showSecondPage() {
+            window.location.href = "flower.html";
+
+        }
+
+        window.onload = createStars;
+    </script>
+</body>
+</html>
